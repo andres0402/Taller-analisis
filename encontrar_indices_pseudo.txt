@@ -1,0 +1,53 @@
+FUNCION encontrar_indices(X, Y, Z):
+    n ← longitud de X
+    m ← longitud de Y
+
+    SI longitud de Z ≠ n + m ENTONCES
+        RETORNAR (Ninguno, Ninguno)
+
+    // Crear la tabla dp con dimensiones (n+1) x (m+1)
+    dp ← matriz de tamaño (n+1) x (m+1) inicializada a FALSO
+
+    // Caso base: una cadena vacía intercalada con otra vacía da una vacía
+    dp[0][0] ← VERDADERO
+
+    // Rellenar la primera columna (usando solo X para formar Z)
+    PARA i desde 1 HASTA n HACER:
+        dp[i][0] ← dp[i-1][0] Y (X[i-1] = Z[i-1])
+
+    // Rellenar la primera fila (usando solo Y para formar Z)
+    PARA j desde 1 HASTA m HACER:
+        dp[0][j] ← dp[0][j-1] Y (Y[j-1] = Z[j-1])
+
+    // Rellenar el resto de la tabla
+    PARA i desde 1 HASTA n HACER:
+        PARA j desde 1 HASTA m HACER:
+            SI X[i-1] = Z[i+j-1 ENTONCES
+                dp[i][j] ← dp[i][j] O dp[i-1][j]
+            SI Y[j-1] = Z[i+j-1 ENTONCES
+                dp[i][j] ← dp[i][j] O dp[i][j-1]
+
+    // Si no es posible formar Z, devolver Ninguno
+    SI NO dp[n][m] ENTONCES
+        RETORNAR (Ninguno, Ninguno)
+
+    // Reconstruir las secuencias de índices X' y Y'
+    i ← n
+    j ← m
+    X_indices ← lista vacía
+    Y_indices ← lista vacía
+
+    // Recorrer hacia atrás desde dp[n][m] para encontrar el camino
+    MIENTRAS i > 0 O j > 0 HACER:
+        SI i > 0 Y dp[i-1][j] Y (X[i-1] = Z[i+j-1]) ENTONCES
+            AGREGAR (i + j) A X_indices
+            i ← i - 1
+        SINO SI j > 0 Y dp[i][j-1] Y (Y[j-1] = Z[i+j-1]) ENTONCES
+            AGREGAR (i + j) A Y_indices
+            j ← j - 1
+
+    // Los índices fueron agregados en orden inverso, así que revertirlos
+    X_indices ← revertir(X_indices)
+    Y_indices ← revertir(Y_indices)
+
+    RETORNAR (X_indices, Y_indices)

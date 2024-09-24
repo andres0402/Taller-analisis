@@ -1,0 +1,27 @@
+Función validateSecuenceMemo(X, Y, Z, i, j, k, memo)
+    Entrada:
+        - X: Secuencia de caracteres
+        - Y: Secuencia de caracteres
+        - Z: Secuencia de caracteres
+        - i: Índice actual en la secuencia X
+        - j: Índice actual en la secuencia Y
+        - k: Índice actual en la secuencia Z
+        - memo: Diccionario para memoización
+
+    Salida:
+        - True si se puede formar la secuencia Z barajando X y Y, False en caso contrario
+
+Si k es igual a la longitud de Z:
+Retornar i == longitud(X) y j == longitud(Y)
+Si (i, j, k) está en memo:
+Retornar memo[(i, j, k)]
+Si i < longitud(X) y X[i] == Z[k]:
+Si validateSecuenceMemo(X, Y, Z, i + 1, j, k + 1, memo) entonces:
+      - memo[(i, j, k)] = True
+      - Retornar True
+Si j < longitud(Y) y Y[j] == Z[k]:
+Si validateSecuenceMemo(X, Y, Z, i, j + 1, k + 1, memo) entonces:
+      - memo[(i, j, k)] = True
+      - Retornar True
+memo[(i, j, k)] = False
+Retornar False

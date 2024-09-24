@@ -1,0 +1,21 @@
+Función validateSecuence(X, Y, Z, i, j, k)
+    Entrada:
+        - X: Secuencia de caracteres
+        - Y: Secuencia de caracteres
+        - Z: Secuencia de caracteres
+        - i: Índice actual en la secuencia X
+        - j: Índice actual en la secuencia Y
+        - k: Índice actual en la secuencia Z
+
+    Salida:
+        - True si se puede formar la secuencia Z barajando X y Y, False en caso contrario
+
+Si k es igual a la longitud de Z:
+Retornar i == longitud(X) y j == longitud(Y)
+Si i < longitud(X) y X[i] == Z[k]:
+Si validateSecuence(X, Y, Z, i + 1, j, k + 1) entonces
+      - Retornar True
+Si j < longitud(Y) y Y[j] == Z[k]:
+Si validateSecuence(X, Y, Z, i, j + 1, k + 1) entonces
+      - Retornar True
+Retornar False

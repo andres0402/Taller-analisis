@@ -1,0 +1,34 @@
+Función validateSecuenceBottomUp(X, Y, Z)
+    Entrada:
+        - X: Secuencia de caracteres
+        - Y: Secuencia de caracteres
+        - Z: Secuencia de caracteres
+
+    Salida:
+        - True si se puede formar la secuencia Z barajando X e Y, False en caso contrario
+
+Si longitud(Z) != longitud(X) + longitud(Y) entonces:
+    Retornar False
+
+Crear una tabla dp de tamaño (longitud(X) + 1) x (longitud(Y) + 1) y rellenarla con False
+
+Inicializar caso base:
+    - dp[0][0] = True (se puede formar una secuencia vacía de Z a partir de secuencias vacías de X y Y)
+
+Rellenar la primera columna (usando solo X para formar Z):
+    Para i desde 1 hasta longitud(X) hacer:
+        - dp[i][0] = dp[i - 1][0] y X[i - 1] == Z[i - 1]
+
+Rellenar la primera fila (usando solo Y para formar Z):
+    Para j desde 1 hasta longitud(Y) hacer:
+        - dp[0][j] = dp[0][j - 1] y Y[j - 1] == Z[j - 1]
+
+Rellenar la tabla dp para todas las demás posiciones:
+    Para i desde 1 hasta longitud(X) hacer:
+        Para j desde 1 hasta longitud(Y) hacer:
+            - Si X[i - 1] == Z[i + j - 1] entonces:
+                - dp[i][j] = dp[i][j] o dp[i - 1][j]
+            - Si Y[j - 1] == Z[i + j - 1] entonces:
+                - dp[i][j] = dp[i][j] o dp[i][j - 1]
+
+Retornar dp[longitud(X)][longitud(Y)] (indica si se puede formar Z barajando X e Y)
